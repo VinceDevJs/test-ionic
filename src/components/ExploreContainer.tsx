@@ -1,14 +1,34 @@
+import { IonIcon } from '@ionic/react';
+import { copy } from 'ionicons/icons';
+
 import './ExploreContainer.css';
 
 interface ContainerProps {
-  name: string;
+  token: string | null;
 }
 
-const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
+const ExploreContainer: React.FC<ContainerProps> = ({ token }) => {
+  const copyText = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('Texte copié dans le presse-papiers !');
+    } catch (err) {
+      console.error('Erreur lors de la copie :', err);
+    }
+  };
+
   return (
     <div id="container">
-      <strong>{name}</strong>
-      <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      <div>
+      <p>Token:</p>
+
+      {token ? (
+        <p>
+          <span><IonIcon onClick={() => copyText(token)} icon={copy} color="dark" /></span> 
+            {token}
+          </p>
+      ) : "Token not found"}
+      </div>
     </div>
   );
 };
